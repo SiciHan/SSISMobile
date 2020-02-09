@@ -209,6 +209,7 @@ namespace Team8SSISMobile.DAO
         {
             Employee head = context.Employees.Where(x => x.IdEmployee == id).Include(x => x.Department).FirstOrDefault();
             Employee rep = context.Employees.Where(x => x.CodeDepartment == head.CodeDepartment && x.Role.Label.Equals("Representative")).FirstOrDefault();
+            if (rep == null) return null;
             return rep.Name;
         }
     }
