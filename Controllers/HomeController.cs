@@ -1,4 +1,8 @@
-﻿using System;
+﻿/*
+ * author: Shutong Han
+ * date: 9 Feb 2020
+ */
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -180,7 +184,7 @@ namespace Team8SSISMobile.Controllers
         }
 
 
-        public JsonResult ApproveRequisition(int requisitionId,string remark)
+        public JsonResult ApproveRequisition(int id, int requisitionId,string remark)
         {
             _requisitionDAO.UpdateApproveStatusAndRemarks(requisitionId,remark);
 
@@ -191,7 +195,7 @@ namespace Team8SSISMobile.Controllers
             string message = "Hi," + _employeeDAO.FindEmployeeById(IdEmployee).Name
                 + " your requisition: " + req.IdRequisition + " raised on " + req.RaiseDate + " has been approved. Remarks: " + remark;
 
-            _notificationChannelDAO.CreateNotificationsToIndividual(IdEmployee, (int)Session["IdEmployee"], message);
+            _notificationChannelDAO.CreateNotificationsToIndividual(IdEmployee, id, message);
 
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new System.Net.NetworkCredential(@"huangyuzhe2019@gmail.com", "woshishenaqq6!");
@@ -205,7 +209,7 @@ namespace Team8SSISMobile.Controllers
             //end of notification sending 
             return Json(new { status="Ok" }, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult RejectRequisition(int requisitionId,string remark)
+        public JsonResult RejectRequisition(int id,int requisitionId,string remark)
         {
             _requisitionDAO.UpdateRejectStatusAndRemarks(requisitionId,remark);
 
@@ -216,7 +220,7 @@ namespace Team8SSISMobile.Controllers
             string message = "Hi," + _employeeDAO.FindEmployeeById(IdEmployee).Name
                    + " your requisition: " + req.IdRequisition + " raised on " + req.RaiseDate + " has been rejected. Remarks: " + remark;
 
-            _notificationChannelDAO.CreateNotificationsToIndividual(IdEmployee, (int)Session["IdEmployee"], message);
+            _notificationChannelDAO.CreateNotificationsToIndividual(IdEmployee, id, message);
 
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.Credentials = new System.Net.NetworkCredential(@"huangyuzhe2019@gmail.com", "woshishenaqq6!");
